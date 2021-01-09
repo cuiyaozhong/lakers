@@ -1,0 +1,6 @@
+project('user-center-impl'){
+    dependencies {
+        compile project(":user-center:user-center-api")
+    }
+
+}
