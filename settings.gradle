@@ -1,3 +1,10 @@
 rootProject.name = 'lakers'
+
 include 'common'
+
+include 'spring-security'
+
+include 'user-center:user-center-api'
+include 'user-center:user-center-client'
+include 'user-center:user-center-impl'
 

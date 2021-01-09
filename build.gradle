@@ -26,6 +26,10 @@ allprojects {
 			mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
 		}
 	}
+
+	repositories {
+		mavenCentral()
+	}
 	
 	dependencies {
 		
@@ -37,6 +41,7 @@ allprojects {
 
 		implementation 'org.springframework.boot:spring-boot-starter'
 		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'org.springframework.boot:spring-boot-starter-aop'
 		implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 		implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -49,19 +54,83 @@ allprojects {
 }
 
 subprojects {
-	//子模块通用依赖
-//	dependencies {
+
+	if (it.name.endsWith("-api") || it.name.endsWith("common") || it.name.endsWith("-impl") ) {
+		dependencies {
+
+			implementation 'org.springframework.boot:spring-boot-starter-validation'
+			implementation 'com.alibaba:fastjson:1.2.72'
+
+		}
+	}
+
+	if (it.name.endsWith("-api") || it.name.endsWith("common")) {
+		dependencies {
+//			compileOnly 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+			compile "com.github.xiaoymin:knife4j-spring-boot-starter:${knife4jVersion}"
 //
-//		// lombok
-//		compile 'org.projectlombok:lombok'
-//		annotationProcessor 'org.projectlombok:lombok'
-//	}
+//			compile "com.zjft.microservice:zj-commons-config:${zjInfrastructureVersion}"
+//			compile "com.zjft.microservice:zj-commons-api:${zjInfrastructureVersion}"
+		}
+	}
+
+	if (it.name.endsWith("-impl") || it.name.endsWith("common")) {
+		dependencies {
+			compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+
+			// jdbc
+			compile "org.springframework.boot:spring-boot-starter-jdbc"
+			// 数据库驱动
+			// compile group: 'oracle', name: 'ojdbc6', version: '11.2.0.3'
+			compile 'mysql:mysql-connector-java:5.1.49'
+
+			// redis
+			compile "org.springframework.boot:spring-boot-starter-data-redis"
+			compile "org.apache.commons:commons-pool2"
+
+			// mapstruct
+			compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+			annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+			implementation "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
+
+			// mybatis
+			implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${springBootMybatisVersion}"
+		}
+	}
+	
+	if (it.name.endsWith("-api")) {
+		dependencies {
+			compile project(":common")
+//			compileOnly "com.zjft.microservice:zj-orchestration-core:${zjInfrastructureVersion}"
+
+			// mybatis
+			implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${springBootMybatisVersion}"
+		}
+	}
+
+	if (it.name.endsWith("-client")) {
+		dependencies {
+			// client 依赖同名 api
+			compile project(":$project.parent.name:$project.parent.name-api")
+//			compile 'org.springframework.cloud:spring-cloud-starter-openfeign'
+		}
+	}
+	if (it.name.endsWith("-impl")) {
+		dependencies {
+			// impl 依赖同名 api
+			compile project(":$project.parent.name:$project.parent.name-api")
+//			compile "com.zjft.microservice:zj-orchestration-core:${zjInfrastructureVersion}"
+//			annotationProcessor "com.zjft.microservice:zj-orchestration-core:${zjInfrastructureVersion}"
+		}
+	}
 }
 
 dependencies {
 	compile project(":common")
+	compile project(":user-center:user-center-impl")
 
-	
+
 }
 
 test {

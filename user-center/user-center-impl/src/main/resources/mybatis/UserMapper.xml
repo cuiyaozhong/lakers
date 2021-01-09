@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.microservice.cyz.user.repository.UserMapper">
+    <resultMap id="resultMap" type="com.microservice.cyz.user.po.UserPO">
+        <id column="USER_NO" property="userNo" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="PASSWORD" property="password" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="DECIMAL"/>
+        <result column="ONLINE_FLAG" property="onlineFlag" jdbcType="DECIMAL"/>
+        <result column="PHONE" property="phone" jdbcType="VARCHAR"/>
+        <result column="EMAIL" property="email" jdbcType="VARCHAR"/>
+        <result column="LOGIN_TIME" property="loginTime" jdbcType="VARCHAR"/>
+        <result column="PASSWORD_ERROR" property="passwordError" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        USER_NO,NAME,STATUS,ONLINE_FLAG,PHONE,EMAIL,LOGIN_TIME,PASSWORD_ERROR
+    </sql>
+
+    <select id="qryUserInfo" parameterType="java.util.Map" resultMap="resultMap">
+        SELECT ID ,NAME,PASSWORD FROM user
+        <where>
+            <if test="id != null and no != ''">
+                ID = #{id,jdbcType = VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name,jdbcType = VARCHAR}
+            </if>
+            <if test="password != null and password != ''">
+                PASSWORD = #{password,jdbcType = VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="qryUserDetail" parameterType="java.lang.String" resultType="com.microservice.cyz.user.po.UserPO">
+        select
+        <include refid="Base_Column_List" />
+        from user where USER_NO = #{userNo,jdbcType = VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="com.microservice.cyz.user.po.UserPO">
+        insert into user
+        <trim prefix="(" suffix= ")" suffixOverrides=",">
+            <if test="userNo != null and userNo != ''">
+                USER_NO,
+            </if>
+            <if test="name != null and name != ''">
+                NAME,
+            </if>
+            <if test="password != null and password != ''">
+                PASSWORD,
+            </if>
+            <if test="status != null and status != -1">
+                STATUS,
+            </if>
+            <if test="onlineFlag != null and onlineFlag != -1">
+                ONLINE_FLAG,
+            </if>
+            <if test="phone != null and phone != ''">
+                PHONE,
+            </if>
+            <if test="email != null and email != ''">
+                EMAIL,
+            </if>
+            <if test="loginTime != null and loginTime != ''">
+                LOGIN_TIME,
+            </if>
+            <if test="passwordError != null and passwordError != -1">
+                PASSWORD_ERROR,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix= ")" suffixOverrides=",">
+            <if test="userNo != null and userNo != ''">
+                #{userNo , jdbcType = VARCHAR},
+            </if>
+            <if test="name != null and userNo != ''">
+                #{name , jdbcType = VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                #{password , jdbcType = VARCHAR},
+            </if>
+            <if test="status != null and status != -1">
+                #{status , jdbcType = DECIMAL},
+            </if>
+            <if test="onlineFlag != null and onlineFlag != -1">
+                #{onlineFlag , jdbcType = DECIMAL},
+            </if>
+            <if test="phone != null and phone != ''">
+                #{phone , jdbcType = VARCHAR},
+            </if>
+            <if test="email != null and email != ''">
+                #{email , jdbcType = VARCHAR},
+            </if>
+            <if test="loginTime != null and loginTime != ''">
+                #{loginTime , jdbcType = VARCHAR},
+            </if>
+            <if test="passwordError != null and passwordError != -1">
+                #{passwordError , jdbcType = DECIMAL},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.microservice.cyz.user.po.UserPO">
+        update user
+        <set>
+            <if test="name != null and userNo != ''">
+                NAEM = #{name , jdbcType = VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                PASSWORD = #{password , jdbcType = VARCHAR},
+            </if>
+            <if test="status != null and status != -1">
+                STATUS = #{status , jdbcType = DECIMAL},
+            </if>
+            <if test="onlineFlag != null and onlineFlag != -1">
+                ONLINE_FLAG #{onlineFlag , jdbcType = DECIMAL},
+            </if>
+            <if test="phone != null and phone != ''">
+                PHONE #{phone , jdbcType = VARCHAR},
+            </if>
+            <if test="email != null and email != ''">
+                EMAIL #{email , jdbcType = VARCHAR},
+            </if>
+            <if test="loginTime != null and loginTime != ''">
+                LOGIN_TIME #{loginTime , jdbcType = VARCHAR},
+            </if>
+            <if test="passwordError != null and passwordError != -1">
+                PASSWORD_ERROR #{passwordError , jdbcType = DECIMAL},
+            </if>
+        </set>
+        where USER_NO = #{userNo,jdbcType = VARCHAR}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from user where USER_NO = #{userNo,jdbcType = VARCHAR}
+    </delete>
+
+</mapper>

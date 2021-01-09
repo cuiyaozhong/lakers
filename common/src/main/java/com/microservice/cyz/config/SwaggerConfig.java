@@ -1,5 +1,6 @@
 package com.microservice.cyz.config;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +16,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author 崔耀中
  * @since 2020-09-09
  */
-@Configuration
+@Configuration("knife4jConfig")
 @EnableSwagger2
+@EnableKnife4j
 public class SwaggerConfig {
 
     @Bean
@@ -32,6 +34,21 @@ public class SwaggerConfig {
         return new ApiInfoBuilder().title("Spring Boot实战")
                 .description("Spring Boot实战的RESTFul接口文档说明")
                 .version("1.0").build();
+    }
+
+    @Bean(value = "api1")
+    public Docket api1() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
+                .groupName("用户中心")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.microservice.cyz.user"))
+                .paths(PathSelectors.regex("^(?!auth).*$"))
+                .build()
+//                .securitySchemes(securitySchemes())
+//                .securityContexts(securityContexts())
+                .apiInfo(apiInfo())
+                ;
     }
 
 }
