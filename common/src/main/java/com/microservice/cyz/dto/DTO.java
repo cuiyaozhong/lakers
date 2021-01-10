@@ -1,6 +1,7 @@
 package com.microservice.cyz.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.microservice.cyz.api.DataTransportObject;
 import com.microservice.cyz.util.RetCodeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,7 +20,7 @@ import java.io.Serializable;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ApiModel(value = "响应数据传输对象", description = "响应数据传输对象")
-public class DTO implements Serializable {
+public class DTO implements Serializable , DataTransportObject {
 
     private static final long serialVersionUID = 1L;
 
