@@ -39,6 +39,10 @@ allprojects {
 		// https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
 		compileOnly "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
 
+		compile group: 'org.apache.commons.io', name: 'commonsIO', version: '2.5.0'
+		
+		implementation group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.10.RELEASE'
+
 		implementation 'org.springframework.boot:spring-boot-starter'
 		implementation 'org.springframework.boot:spring-boot-starter-web'
 		implementation 'org.springframework.boot:spring-boot-starter-aop'
@@ -93,6 +97,10 @@ subprojects {
 			compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 			annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 			implementation "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
+			
+
+			// https://mvnrepository.com/artifact/com.github.houbb/junitperf
+			compile group: 'com.github.houbb', name: 'junitperf', version: '2.0.0'
 
 			// mybatis
 			implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${springBootMybatisVersion}"
@@ -124,13 +132,16 @@ subprojects {
 //			annotationProcessor "com.zjft.microservice:zj-orchestration-core:${zjInfrastructureVersion}"
 		}
 	}
+	
 }
 
+//根项目
 dependencies {
 	compile project(":common")
 	compile project(":user-center:user-center-impl")
-
-
+	
+//	testImplementation "junit:junit:${junitVersion}"
+	
 }
 
 test {

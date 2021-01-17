@@ -2,6 +2,7 @@ package com.microservice.cyz.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -21,19 +22,26 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableKnife4j
 public class SwaggerConfig {
 
-    @Bean
-    public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
-                .paths(PathSelectors.any())
-                .build();
-    }
+    @Value("${spring.application.name:}")
+    private String name;
+
+//    @Bean
+//    public Docket createRestApi() {
+//        return new Docket(DocumentationType.SWAGGER_2)
+//                .apiInfo(apiInfo()).select()
+//                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+//                .paths(PathSelectors.any())
+//                .build();
+//    }
+//
+//    private ApiInfo apiInfo() {
+//        return new ApiInfoBuilder().title("Spring Boot实战")
+//                .description("Spring Boot实战的RESTFul接口文档说明")
+//                .version("1.0").build();
+//    }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Spring Boot实战")
-                .description("Spring Boot实战的RESTFul接口文档说明")
-                .version("1.0").build();
+        return new ApiInfoBuilder().title(name).version("v2.0").build();
     }
 
     @Bean(value = "api1")
